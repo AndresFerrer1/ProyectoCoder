@@ -5,13 +5,26 @@
 {% block contenidoQueCambia %}
 
     <!--Aquí va lo que cambia, y lo asociado a esta vista-->
-    <h1>Cursos</h1>
-    <p>Acá va la info de los cursos</p>
-   
+    <p>Resultados para la camada {{camada}}</p>
+    
+    {% if cursos %}
+
     <ul>
+        
+        {% for curso in cursos %}
+            <li>
+                {{curso}}
+            </li>
+        {% endfor %}
+            
+    </ul>
+
+    {% endif %}
+   
+    <!-- <ul>
     {% for curso in lista %}
         <li>{{curso.nombre}}</li>        
     {% endfor %}
-    </ul>
+    </ul> -->
     
 {% endblock %}
