@@ -1,29 +1,35 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Curso Formulario</title>
-</head>
-<body>
+{% extends "AppCoder/padre.html" %}
 
-    
+{% load static %}
+
+{% block contenidoQueCambia %}
+
+
     {% if form.errors %}
-        <p style="color: red;">Los datos son incorrectos</p>        
-    {% endif %}
-        
 
-    <form action="/AppCoder/cursoFormulario/" method="post">{% csrf_token %}
+    <p style="color: red;">Los datos son incorrectos, revisar</p>
+
+    {% endif %}
+
+    <form action="{%url 'New' %}" method="POST">{% csrf_token %}
+
+        <form action="/AppCoder/cursoFormulario/" method="post">{% csrf_token %}
 
         <p>Curso: <input type="text" name="nombre" id="nombre"></p>
 
         <p>Camada: <input type="number" name="camada" id="camada"></p>
 
+        <!-- <table>
 
-        <!-- {{form.as_table}} -->
-    
+            {{ form.as_table }}
+
+        </table> -->
+
+
         <input type="submit" value="Crear" />
-    
+
     </form>
-</body>
-</html>
+
+  
+
+{% endblock %}

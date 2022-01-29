@@ -1,30 +1,23 @@
-{% extends 'AppCoder/padre.html' %}
+{% extends "AppCoder/padre.html" %}
 
 {% load static %}
 
 {% block contenidoQueCambia %}
+    <!--Aquí va lo que cambia, y lo asociado a está vista :) -->
+    {% if curso.errors %}
 
-    <!--Aquí va lo que cambia, y lo asociado a esta vista-->
-    <p>Resultados para la camada {{camada}}</p>
-    
-    {% if cursos %}
-
-    <ul>
-        
-        {% for curso in cursos %}
-            <li>
-                {{curso}}
-            </li>
-        {% endfor %}
-            
-    </ul>
+    <p style="color: red;"> Están mal los datos, revisar</p>
 
     {% endif %}
-   
-    <!-- <ul>
-    {% for curso in lista %}
-        <li>{{curso.nombre}}</li>        
-    {% endfor %}
-    </ul> -->
     
+        
+        <h1>Lista de Cursos</h1>
+        
+        {% for cursos in curso %}
+
+        <li>{{cursos}}</li>
+            
+        {% endfor %}
+        
+    </form>
 {% endblock %}

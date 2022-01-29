@@ -6,9 +6,9 @@
 
 
     <!--Aquí va lo que cambia, y lo asociado a está vista :) -->
-    <h1>Formulario - Agregar Profesor</h1>
+    <h1>Formulario - Editar Profesor</h1>
     
-    {% if form.errors %}
+    {% if miFormulario.errors %}
 
     <p style="color: red;"> Están mal los datos, revisar</p>
 
@@ -21,7 +21,7 @@
         
         <table>
 
-            {{ form.as_table }}
+            {{ miFormulario.as_table }}
 
 
         </table>
