@@ -4,8 +4,8 @@ import imp
 import re
 from django.shortcuts import render, HttpResponse
 from django.http import HttpResponse, request
-from AppCoder.forms import CursoFormulario, ProfesorFormulario
-from AppCoder.models import Curso, Profesor
+from AppCoder.forms import CursoFormulario, ProfesorFormulario, UserEditForm
+from AppCoder.models import Avatar, Curso, Profesor
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -43,7 +43,7 @@ def cursoformulario(req):
 
         mi_formulario = CursoFormulario()
 
-    return render(req, 'AppCoder/cursoFormulario.html', {'form': mi_formulario})
+        return render(req, 'AppCoder/cursoFormulario.html', {'form': mi_formulario})
 
 def busquedaCamada(req):
 
@@ -54,9 +54,9 @@ def buscar(req):
     if(req.method == "GET"):
 
         camada = req.GET["camada"]
-        cursos = Curso.objects.filter(camada=camada)
+        nombre = Curso.objects.filter(camada=camada)
 
-        return render(req, "AppCoder/cursos.html", {"cursos": cursos, "camada": camada})
+        return render(req, "AppCoder/resultadosBusqueda.html", {"nombre": nombre, "camada": camada})
 
     else:
 
@@ -67,6 +67,13 @@ def buscar(req):
 def inicio(req):
 
     return render(req, 'AppCoder/inicio.html')
+
+@login_required
+def inicio2(request):
+
+    avatar = Avatar.objects.filter(user=request.user.id)  
+
+    return render(request, 'AppCoder/inicio2.html', {"url":avatar[0].imagen.url})
 
 def cursos(req):
 
@@ -157,7 +164,7 @@ def editarProfesor(req, profesor_nombre):
         'email':profesor.email, 'profesion':profesor.profesion}) 
 
       #Voy al html que me permite editar
-    return render(req, "AppCoder/editarProfesor.html", {"miFormulario":miFormulario, "profesor_nombre":profesor_nombre})
+        return render(req, "AppCoder/editarProfesor.html", {"miFormulario":miFormulario, "profesor_nombre":profesor_nombre})
 
 class CursoList(LoginRequiredMixin, ListView):
 
@@ -192,23 +199,31 @@ def login_request(req):
         form = AuthenticationForm(req, data = req.POST)
 
         if form.is_valid():
-            usuario = form.cleaned_data.get('username')
-            contra = form.cleaned_data.get('password')
+            # usuario = form.cleaned_data.get('username')
+            # contra = form.cleaned_data.get('password')
 
-            user = authenticate(username=usuario, password=contra)
+            data = form.cleaned_data
+
+            # user = authenticate(username=usuario, password=contra)
+
+            user = authenticate(username=data['username'], password=data['password'])
 
             if user is not None:
                 login(req, user)
 
-                return render(req, "AppCoder/Inicio.html", {'mensaje':f'Bienvenido {user.get_username()}'})
+                avatar = Avatar.objects.filter(user=req.user.id)                
+
+                return render(req, "AppCoder/Inicio2.html", {'mensaje':f'Bienvenido {user.get_username()}', 
+                    'url': avatar[0].imagen.url
+                })
 
             else:
 
-                return render(req, "AppCoder/Inicio.html", {'mensaje':f'Falló la autenticación, intentalo de nuevo'})
+                return render(req, "AppCoder/login.html", {'mensaje':f'Falló la autenticación, intentalo de nuevo'})
 
         else:
 
-            return render(req, "AppCoder/Inicio.html", {'mensaje':f'Error, formulario erroneo'})
+            return render(req, "AppCoder/login.html", {'mensaje':f'Error, formulario erroneo'})
 
     form =AuthenticationForm()
 
@@ -231,5 +246,32 @@ def register(req):
         form = UserCreationForm(req.POST)
         #form =UserRegisterForm(req.POST)
 
-    return render(req, "AppCoder/registro.html", {"form":form})
+        return render(req, "AppCoder/registro.html", {"form":form})
+
+@login_required
+def editarPerfil(req):
+
+    usuario = req.user
+
+    if req.method == "POST":
+        miFormulario = UserEditForm(req.POST)
+        if miFormulario.is_valid():
+
+            informacion = miFormulario.cleaned_data
+
+            usuario.email = informacion['email']
+            usuario.password1 = informacion['password1']
+            usuario.password2 = informacion['password2']
+            #Si quisiera cambiar el nombre del usuario
+            usuario.first_name = informacion['first_name']
+            usuario.last_name = informacion['last_name']
+            usuario.save()
+
+            return render(req, "AppCoder/inicio.html")
+
+    else:
+
+        miFormulario = UserEditForm(initial={'email': usuario.email})
+
+        return render(req, "AppCoder/editarPerfil.html", {"miFormulario":miFormulario, "usuario":usuario})
 
