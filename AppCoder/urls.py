@@ -4,7 +4,7 @@ from django.urls import path
 from AppCoder import views
 
 from AppCoder.views import Curso, inicio2, leer_cursos
-
+from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
@@ -35,4 +35,6 @@ urlpatterns = [
     path("editarPerfil/", views.editarPerfil, name='EditarPerfil'),
 
     path('inicio2/', views.inicio2, name="Inicio2"),
+
+    path('profile/', views.profile, name='Profile'),
 ]

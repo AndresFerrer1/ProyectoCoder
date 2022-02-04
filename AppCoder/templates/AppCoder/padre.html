@@ -34,8 +34,9 @@
                 {% endif %}
 
                 {% if request.user.is_authenticated %}
-                    
+                    <img height="40px" src="{{url}}" alt="avatar">
                     <p class="text-muted small mb-4 mb-lg-0"> Hola, {{user.username}}!!</p>
+                    <a class="btn btn-primary" href={% url 'Profile' %}>Perfil</a>
                     <a class="btn btn-primary" href={% url 'Logout' %}>Logout</a>
                     <a class="btn btn-primary" href={% url 'EditarPerfil' %}>Editar Perfil</a>
                 
@@ -86,7 +87,7 @@
         {% block contenidoQueCambia %}
             
         {% endblock %}
-            
+
 
 
         <!-- Footer-->

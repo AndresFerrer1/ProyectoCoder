@@ -39,7 +39,7 @@ def get_image_filename(instance, filename):
     return "imagenesAvatares/%s-%s" % (slug, filename)  
 
 class Avatar(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     imagen = models.ImageField(upload_to='avatares', null=True, blank = True)
 
     def __str__(self):

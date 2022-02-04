@@ -1,0 +1,29 @@
+{% extends "AppCoder/padre.html" %}
+
+{% block contenidoQueCambia %}
+
+{% load crispy_forms_tags %}
+
+    <!--Aquí va lo que cambia, y lo asociado a esta vista-->
+    <h1 class="text-center">Tu Perfil:</h1>
+    
+    <div class="text-center">
+        <h2 class="account-heading">Usuario: {{user.username}}</h2>
+        <p class="text-secondary">Correo: {{user.email}}</p>
+        <p class="text-secondary">Nombre: {{usuario.first_name}}</p>
+        <p class="text-secondary">Apellido: {{usuario.last_name}}</p>
+        <img height="150px" src="{{url}}" alt="avatar">
+    </div>
+    
+    <form method="post" action="">
+        {% csrf_token %}
+        <fieldset class="text-center">
+            <p>Profile Info</p>
+            <table style="margin-left:auto;margin-right:auto;margin-top:auto;margin-bottom:10px">
+            {{ miFormulario.as_table }}
+            </table>
+        <div class="text-center">
+            <button class="btn btn-outline-info" type="submit", value="Enviar">Actualizar Perfil</button>
+        </div>
+    </form>
+{% endblock %}
