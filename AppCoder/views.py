@@ -4,8 +4,8 @@ import imp
 import re
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import HttpResponse, request
-from AppCoder.forms import CursoFormulario, ProfesorFormulario, UserEditForm
-from AppCoder.models import Avatar, Curso, Profesor
+from AppCoder.forms import ContactoFormumlario, CursoFormulario, ProfesorFormulario, UserEditForm
+from AppCoder.models import Avatar, Contact, Curso, Profesor
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -14,6 +14,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail, BadHeaderError
+from django.urls import reverse_lazy
 
 # Create your views here.
 
@@ -312,10 +313,65 @@ def contacto_gracias(req):
 
     avatar = Avatar.objects.filter(user=req.user.id)
 
+    mensaje1 = f'Gracias por enviarnos tu consulta. Nos pondremos en contacto a la brevedad'
+
     if req.user.id == None:
 
-        return render(req, 'AppCoder/contacto_gracias.html')
+        return render(req, 'AppCoder/contacto_gracias.html', {'mensaje1':mensaje1})
 
     else:
 
-        return render(req, 'AppCoder/contacto_gracias.html', {"url":avatar[0].imagen.url})
+        return render(req, 'AppCoder/contacto_gracias.html', {'mensaje1':mensaje1, "url":avatar[0].imagen.url})
+
+def VistaContacto(req):
+
+    mensaje1 = f'Gracias por enviarnos tu consulta. Nos pondremos en contacto a la brevedad'
+
+    avatar = Avatar.objects.filter(user=req.user.id)
+
+    form = ContactoFormumlario()
+
+    if req.user.id == None:
+
+        if req.method == 'POST':
+            form = ContactoFormumlario(req.POST)
+            if form.is_valid():
+                asunto = form.cleaned_data['asunto']
+                correo = form.cleaned_data['correo']
+                mensaje = form.cleaned_data['mensaje']
+                nombre = form.cleaned_data['nombre']
+                apellido = form.cleaned_data['apellido']
+                try:
+                    send_mail(asunto, mensaje, correo, ['admin@example.com'], nombre, apellido)
+                except BadHeaderError:
+                    return HttpResponse('Invalid header found.')
+                return render(req, 'AppCoder/contacto_gracias.html', {'mensaje1':mensaje1})
+
+        else:
+
+            return render(req, "AppCoder/email.html", {'form': form,})
+
+    else:
+
+        if req.method == 'POST':
+            form = ContactoFormumlario(req.POST)
+            if form.is_valid():
+                asunto = form.cleaned_data['asunto']
+                correo = form.cleaned_data['correo']
+                mensaje = form.cleaned_data['mensaje']
+                nombre = form.cleaned_data['nombre']
+                apellido = form.cleaned_data['apellido']
+                try:
+                    send_mail(asunto, mensaje, correo, ['admin@example.com'], nombre, apellido)
+                except BadHeaderError:
+                    return HttpResponse('Invalid header found.')
+                return render(req, 'AppCoder/contacto_gracias.html', {'mensaje1':mensaje1})
+
+        else:
+
+            return render(req, "AppCoder/email.html", {'form': form, "url":avatar[0].imagen.url})
+
+class crearContacto(CreateView):
+    model = Contact
+    fields = ['correo', 'nombre', 'apellido', 'asunto', 'mensaje']
+    success_url = "/AppCoder/contacto_gracias"

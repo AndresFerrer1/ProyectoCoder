@@ -38,3 +38,13 @@ class Avatar(models.Model):
 
     def __str__(self):
         return f"Imagen de {self.user.username}"
+
+class Contact(models.Model):
+    correo = models.EmailField()
+    nombre= models.CharField(max_length=30)
+    apellido = models.CharField(max_length=30)
+    asunto = models.CharField(max_length=100)
+    mensaje = models.TextField(max_length=10000)
+
+    def __str__(self):
+        return self.correo

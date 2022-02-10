@@ -37,8 +37,11 @@ urlpatterns = [
     path("perfil/", views.perfil, name='Perfil'),
     path('inicio2/', views.inicio2, name="Inicio2"),
 
+    # path('contacto/', views.Contacto.as_view(), name='contacto'),
 
+    path('contacto/', views.VistaContacto, name='contacto'),
 
-
+    path('crearcontacto/', views.crearContacto.as_view(), name='crearcontacto'),
+    path('contacto_gracias/', views.contacto_gracias, name='contacto_gracias'),
 
 ]
