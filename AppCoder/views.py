@@ -3,9 +3,8 @@ from dataclasses import field
 import imp
 import re
 from django.shortcuts import render, HttpResponse, redirect
-from django.contrib import messages
 from django.http import HttpResponse, request
-from AppCoder.forms import CursoFormulario, ProfesorFormulario, UserEditForm, UserRegisterForm
+from AppCoder.forms import CursoFormulario, ProfesorFormulario, UserEditForm
 from AppCoder.models import Avatar, Curso, Profesor
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
@@ -14,6 +13,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail, BadHeaderError
 
 # Create your views here.
 
@@ -63,26 +63,41 @@ def buscar(req):
 
         return HttpResponse(f'No enviaste datos')
 
+def buscarn(req):
+
+    if(req.method == "GET"):
+
+        nombre = req.GET["nombre"]
+        camada = Curso.objects.filter(nombre=nombre)
+
+        return render(req, "AppCoder/resultadosBusquedan.html", {"nombre": nombre, "camada": camada})
+
+    else:
+
+        return HttpResponse(f'No enviaste datos')
+
     # return HttpResponse(f'Estamos buscando los cursos de la camada numero: {req.GET["camada"]}')
 
 def inicio(req):
-    
-    if (req.user.id) == None:
+
+    avatar = Avatar.objects.filter(user=req.user.id)
+
+    if req.user.id == None:
 
         return render(req, 'AppCoder/inicio.html')
 
     else:
 
-        avatar = Avatar.objects.filter(user=req.user.id)
-
         return render(req, 'AppCoder/inicio.html', {"url":avatar[0].imagen.url})
 
+    # return render(req, 'AppCoder/inicio.html')
+
 @login_required
-def inicio2(req):
+def inicio2(request):
 
-    avatar = Avatar.objects.filter(user=req.user.id)  
+    avatar = Avatar.objects.filter(user=request.user.id)  
 
-    return render(req, 'AppCoder/inicio2.html', {"url":avatar[0].imagen.url})
+    return render(request, 'AppCoder/inicio2.html', {"url":avatar[0].imagen.url})
 
 def cursos(req):
 
@@ -222,7 +237,7 @@ def login_request(req):
 
                 avatar = Avatar.objects.filter(user=req.user.id)                
 
-                return render(req, "AppCoder/Inicio.html", {'mensaje':f'Bienvenido {user.get_username()}', 
+                return render(req, "AppCoder/Inicio2.html", {'mensaje':f'Bienvenido {user.get_username()}', 
                     'url': avatar[0].imagen.url
                 })
 
@@ -260,6 +275,8 @@ def register(req):
 @login_required
 def editarPerfil(req):
 
+    avatar = Avatar.objects.filter(user=req.user.id)  
+
     usuario = req.user
 
     if req.method == "POST":
@@ -276,39 +293,29 @@ def editarPerfil(req):
             usuario.last_name = informacion['last_name']
             usuario.save()
 
-            return render(req, "AppCoder/inicio.html")
+            return render(req, "AppCoder/inicio.html", {'url': avatar[0].imagen.url})
 
     else:
 
         miFormulario = UserEditForm(initial={'email': usuario.email})
 
-        return render(req, "AppCoder/editarPerfil.html", {"miFormulario":miFormulario, "usuario":usuario})
+        return render(req, "AppCoder/editarPerfil.html", {"miFormulario":miFormulario, "usuario":usuario, 'url': avatar[0].imagen.url})
 
-@login_required # Require user logged in before they can access profile page
-def profile(req):
+@login_required
+def perfil(req):
 
-    avatar = Avatar.objects.filter(user=req.user.id)  
+    avatar = Avatar.objects.filter(user=req.user.id)
 
-    usuario = req.user
+    return render(req,'AppCoder/perfil.html', {'url': avatar[0].imagen.url})
 
-    if (req.method == "POST"):
-        miFormulario = UserEditForm(req.POST)
-        if miFormulario.is_valid():
+def contacto_gracias(req):
 
-            informacion = miFormulario.cleaned_data
+    avatar = Avatar.objects.filter(user=req.user.id)
 
-            usuario.email = informacion['email']
-            usuario.password1 = informacion['password1']
-            usuario.password2 = informacion['password2']
-            #Si quisiera cambiar el nombre del usuario
-            usuario.first_name = informacion['first_name']
-            usuario.last_name = informacion['last_name']
-            usuario.save()
+    if req.user.id == None:
 
-            return render(req, "AppCoder/profile.html", {"miFormulario":miFormulario, "usuario":usuario, "url":avatar[0].imagen.url})
+        return render(req, 'AppCoder/contacto_gracias.html')
 
     else:
 
-        miFormulario = UserEditForm(initial={'email': usuario.email})
-
-        return render(req, 'AppCoder/profile.html', {"miFormulario":miFormulario, "usuario":usuario, "url":avatar[0].imagen.url})
+        return render(req, 'AppCoder/contacto_gracias.html', {"url":avatar[0].imagen.url})

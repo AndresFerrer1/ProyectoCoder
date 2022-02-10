@@ -7,13 +7,13 @@
 
 {% block contenidoQueCambia %}
     
-    <p>Resultados para la camada {{camada}}</p>
+    <p>Resultados para la camada {{nombre}}</p>
     
-    {% if camada %}
+    {% if nombre %}
 
     <ul>
         
-        {% for nombres in nombre %}
+        {% for nombres in camada %}
             <li>
                 Nombre de curso: {{nombres.nombre}}
                 <p>Camada N°: {{nombres.camada}}  </p>             

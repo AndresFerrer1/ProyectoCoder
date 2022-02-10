@@ -3,13 +3,14 @@
 {% load static %}
     
 {% block contenidoQueCambia %}
-    <h1>Formulario - Editar Perfil</h1>
-    <h2>De {{usuario}}</h2>
+    <h1 class="text-center">Formulario - Editar Perfil</h1>
+    <h2 class="text-center">De {{usuario}}</h2>
 
     
     <form action="" method="post">
         {% csrf_token %}
-            <table>
+        <fieldset class="text-center"></fieldset>
+            <table style="margin-left:auto;margin-right:auto;margin-top:auto;margin-bottom:10px">
 
                 {{ miFormulario.as_table }}
 

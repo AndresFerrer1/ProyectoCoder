@@ -1,0 +1,21 @@
+{% extends "AppCoder/padre.html" %}
+
+{% load static %}
+    
+{% block contenidoQueCambia %}
+
+<form method="post" action="">
+    {% csrf_token %}
+    <fieldset class="text-center">
+        <h2>Contacto</h2>
+        <table style="margin-left:auto;margin-right:auto;margin-top:auto;margin-bottom:10px">
+            {% csrf_token %}
+            {{ form.as_p }}
+        </table>
+    <div class="text-center">
+        <button class="btn btn-outline-info" type="submit">Enviar</button>
+    </div>
+
+</form>
+
+{% endblock %}

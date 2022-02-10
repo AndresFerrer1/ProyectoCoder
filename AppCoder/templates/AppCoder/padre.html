@@ -16,45 +16,53 @@
         <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{% static 'AppCoder\css\styles.css' %}" rel="stylesheet" />
+        <link href="{% static 'AppCoder\css\styles2.css' %}" rel="stylesheet" />
 
 
 
     </head>
+
     <body>
+
         <!-- Navigation-->
-        <nav class="navbar navbar-light bg-light static-top">
+
+        <nav class="navbar navbar-light bg-light static-top ">
             <div class="container">
                 <a class="navbar-brand" href={% url 'Inicio' %}>Inicio</a>
-                <a class="navbar-brand" href={% url 'Estudiantes' %}>Estudiantes</a>
-                <a class="navbar-brand" href={% url 'Entregables' %}>Entregables</a>
-                
+                <a class="navbar-brand" href={% url 'lista_profesores' %}>L. Profesores</a>
+                <a class="navbar-brand" href={% url 'lista_cursos' %}>L. Cursos</a>
+
                 {% if not request.user.is_authenticated %}
                     <a class="btn btn-primary" href={% url 'Login' %}>Login</a>
                     <a class="btn btn-primary" href={% url 'Register' %}>Registro</a>
                 {% endif %}
 
                 {% if request.user.is_authenticated %}
-                    <img height="40px" src="{{url}}" alt="avatar">
-                    <p class="text-muted small mb-4 mb-lg-0"> Hola, {{user.username}}!!</p>
-                    <a class="btn btn-primary" href={% url 'Profile' %}>Perfil</a>
-                    <a class="btn btn-primary" href={% url 'Logout' %}>Logout</a>
-                    <a class="btn btn-primary" href={% url 'EditarPerfil' %}>Editar Perfil</a>
-                
+                <p class="text-muted small mb-4 mb-lg-0"> Hola, {{user.username}}!!</p>
+                    
+                    <div class="dropdown">
+                        <button class="dropbtn">Perfil<img height="40px" src="{{url}}" alt="avatar"></button>
+                        <div class="dropdown-content">
+                            <li><a href={% url 'Perfil' %}>Ver Perfil</a></li>                           
+                            <li><a href={% url 'EditarPerfil' %}>Editar Perfil</a></li>
+                            <li><a href="">Editar Avatar</a></li>
+                            <li><a href={% url 'Entregables' %}>Entregables</a></li>
+                            <li><a href={% url 'Logout' %}>Logout</a></li>
+                        </div>
+                    </div>                    
                 {% endif %}
-                
-                
             </div>
-        <nav class="navbar navbar-light bg-light static-top"></nav>
+        </nav>
+
+        <nav class="navbar navbar-light bg-light static-top">
             <div class="container">
-                <a class="navbar-brand" href={% url 'lista_profesores' %}>L. Profesores</a>
-                <a class="navbar-brand" href={% url 'lista_cursos' %}>L. Cursos</a>
+                <a class="navbar-brand" href={% url 'Estudiantes' %}>Estudiantes</a>
                 <a class="navbar-brand" href={% url 'List' %}>2 L. Cursos</a>
                 <a class="navbar-brand" href={% url 'Profesores' %}>F. Profesores</a>
                 <a class="navbar-brand" href={% url 'Cursos' %}>F. Cursos</a>
                 <a class="navbar-brand" href={% url 'BusquedaCamada' %}>Busq. Camada</a>
             </div>
         </nav>
-
 
         <!-- Masthead-->
         <header class="masthead">
@@ -72,14 +80,13 @@
                             <!-- To make this form functional, sign up at-->
                             <!-- https://startbootstrap.com/solution/contact-forms-->
                             <!-- to get an API token!-->
-                            
                         </div>
                     </div>
                 </div>
             </div>
         </header>
         
-
+    
 
 
         <!-- Esto es lo que va a cambiar-->

@@ -1,0 +1,20 @@
+{% extends "AppCoder/padre.html" %}
+
+{% load static %}
+    
+{% block contenidoQueCambia %}
+
+<h3>Agregar Avatar</h3>
+{% if message %}
+      <div class='alert alert-info'>
+        {{ message }}
+      </div>
+    {% endif %}
+
+    <h3>Upload a picture</h3> 
+    <form  role="form"  enctype="multipart/form-data" action="" method="POST" id="upload-image-form"> 
+        {% csrf_token %}
+        {{ form.as_p }}
+    </form>
+
+{% endblock %}
