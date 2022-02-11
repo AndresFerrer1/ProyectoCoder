@@ -1,0 +1,28 @@
+{% extends "AppCoder/padre.html" %}
+
+{% load static %}
+    
+{% block contenidoQueCambia %}
+
+<h3>Agregar Avatar</h3>
+
+    <h3>Modificar Avatar</h3> 
+    <ul>
+        {% for avatar in object_list %}
+
+        <li>
+            <img style="max-width: 100%; max-height: 100%;" src="">
+            <p>Avatar: {{ avatar.imagen }}</p>
+            
+            <p> 
+                
+                <a href="{% url 'actualizarAvatar' avatar.id %}">Editar</a> | 
+
+                
+            </p> 
+        </li>
+
+    {% endfor %}
+</ul>
+
+{% endblock %}

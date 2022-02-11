@@ -43,5 +43,7 @@ urlpatterns = [
 
     path('crearcontacto/', views.crearContacto.as_view(), name='crearcontacto'),
     path('contacto_gracias/', views.contacto_gracias, name='contacto_gracias'),
+    path('actualizarAvatar/<pk>/', views.UpdateAvatar.as_view(), name='actualizarAvatar'),
+    path('avatarView/', views.AvatarUserList.as_view(), name='AvatarView'),
 
 ]

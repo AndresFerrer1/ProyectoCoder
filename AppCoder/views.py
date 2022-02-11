@@ -1,6 +1,7 @@
 from cmath import log
 from dataclasses import field
 import imp
+from queue import Empty
 import re
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import HttpResponse, request
@@ -375,3 +376,43 @@ class crearContacto(CreateView):
     model = Contact
     fields = ['correo', 'nombre', 'apellido', 'asunto', 'mensaje']
     success_url = "/AppCoder/contacto_gracias"
+
+class AvatarUserList(LoginRequiredMixin, ListView):
+
+    model = Avatar
+    template_name = "AppCoder/avatar_list.html"
+
+class UpdateAvatar(LoginRequiredMixin, UpdateView):
+
+    model = Avatar
+    success_url = "/AppCoder/avatarView"
+    fields = ['user', 'imagen']  
+
+# @login_required
+# def editarAvatar(req):
+
+#     avatar = Avatar.objects.filter(user=req.user.id)  
+
+#     usuario = req.user
+
+#     if req.method == "POST":
+#         miFormulario = UserEditForm(req.POST)
+#         if miFormulario.is_valid():
+
+#             informacion = miFormulario.cleaned_data
+
+#             usuario.email = informacion['email']
+#             usuario.password1 = informacion['password1']
+#             usuario.password2 = informacion['password2']
+#             #Si quisiera cambiar el nombre del usuario
+#             usuario.first_name = informacion['first_name']
+#             usuario.last_name = informacion['last_name']
+#             usuario.save()
+
+#             return render(req, "AppCoder/inicio.html", {'url': avatar[0].imagen.url})
+
+#     else:
+
+#         miFormulario = UserEditForm(initial={'email': usuario.email})
+
+#         return render(req, "AppCoder/editarPerfil.html", {"miFormulario":miFormulario, "usuario":usuario, 'url': avatar[0].imagen.url})
