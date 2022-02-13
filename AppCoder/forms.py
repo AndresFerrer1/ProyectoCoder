@@ -4,6 +4,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
+from AppCoder.models import Avatar
+
 class CursoFormulario(forms.Form):
 
     nombre = forms.CharField()
@@ -36,3 +38,8 @@ class ContactoFormumlario(forms.Form):
     apellido = forms.CharField(required=True, max_length=30)
     asunto = forms.CharField(required=True, max_length=100)
     mensaje = forms.CharField(widget=forms.Textarea, required=True, max_length=10000)
+
+class AvatarFormulario(forms.ModelForm):
+    class Meta:
+        model = Avatar
+        fields = ('user', 'imagen')

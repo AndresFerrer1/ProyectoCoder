@@ -5,15 +5,8 @@
 
 {% block contenidoQueCambia %}
 
-
     <!--Aquí va lo que cambia, y lo asociado a esta vista-->
-    <h1 class="text-center">{{mensaje}}</h1>
-    
-    <div class="text-center">
-        <img height="150px" src="{{url}}" alt="avatar">
-        <p>Que bueno verte de nuevo {{user.username}}</p>
-    </div>
-
+    <h1>{{mensaje}}</h1>
 
     <h3>Podes buscar una camada:</h3>
 
@@ -25,22 +18,14 @@
     
     </form>
 
+    <h3>Podes buscar una camada por nombre de curso:</h3>
+
+    <form action="/AppCoder/buscarn/" method="get">
+
+        <input type="text" name="nombre" id="nombre">
+
+        <input type="submit" value="Buscar">
     
-    {% if cursos %}
-
-    <p> Estamos buscando el: {{camada}}</p>
-
-    <ul>
-        
-        {% for curso in cursos %}
-        <li> {{curso.nombre}} </li>
-        <li> {{curso.camada}} </li>
-            
-        {% endfor %}
-            
-    </ul>
-        
-    {% endif %}
-        
+    </form>
     
 {% endblock %}

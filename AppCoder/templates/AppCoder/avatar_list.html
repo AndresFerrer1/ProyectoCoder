@@ -11,8 +11,9 @@
         {% for avatar in object_list %}
 
         <li>
-            <img style="max-width: 100%; max-height: 100%;" src="">
+            <img style="max-width: 100%; max-height: 100%;" height="40px" src="{% static 'AppCoder/assets/img/user.jpg' %}">
             <p>Avatar: {{ avatar.imagen }}</p>
+            {{ avatar.media }}</p>
             
             <p> 
                 

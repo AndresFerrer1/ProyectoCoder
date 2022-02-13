@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 from cmath import log
 from dataclasses import field
 import imp
@@ -5,7 +6,7 @@ from queue import Empty
 import re
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import HttpResponse, request
-from AppCoder.forms import ContactoFormumlario, CursoFormulario, ProfesorFormulario, UserEditForm
+from AppCoder.forms import AvatarFormulario, ContactoFormumlario, CursoFormulario, ProfesorFormulario, UserEditForm
 from AppCoder.models import Avatar, Contact, Curso, Profesor
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
@@ -82,7 +83,7 @@ def buscarn(req):
 
 def inicio(req):
 
-    avatar = Avatar.objects.filter(user=req.user.id)
+    # avatar = Avatar.objects.filter(user=req.user.id)
 
     if req.user.id == None:
 
@@ -90,9 +91,9 @@ def inicio(req):
 
     else:
 
+        avatar = Avatar.objects.filter(user=req.user.id)
+    
         return render(req, 'AppCoder/inicio.html', {"url":avatar[0].imagen.url})
-
-    # return render(req, 'AppCoder/inicio.html')
 
 @login_required
 def inicio2(request):
@@ -239,9 +240,7 @@ def login_request(req):
 
                 avatar = Avatar.objects.filter(user=req.user.id)                
 
-                return render(req, "AppCoder/Inicio2.html", {'mensaje':f'Bienvenido {user.get_username()}', 
-                    'url': avatar[0].imagen.url
-                })
+                return render(req, "AppCoder/Inicio2.html", {'mensaje':f'Bienvenido {user.get_username()}'})
 
             else:
 
@@ -265,7 +264,7 @@ def register(req):
 
             username = form.cleaned_data['username']
             form.save()
-            return render(req,"AppCoder/inicio.html", {"mensaje":"Usuario Creado :)"})
+            return render(req,"AppCoder/editarAvatar.html", {"mensaje":"Usuario Creado, crea un avatar :)"})
 
     else:
 
@@ -388,31 +387,30 @@ class UpdateAvatar(LoginRequiredMixin, UpdateView):
     success_url = "/AppCoder/avatarView"
     fields = ['user', 'imagen']  
 
-# @login_required
-# def editarAvatar(req):
+class AvatarCreate(CreateView):
+    model = Avatar
+    fields = ['user', 'imagen']
+    success_url = "/AppCoder/avatarView"
 
-#     avatar = Avatar.objects.filter(user=req.user.id)  
+@login_required
+def editarAvatar(req):
 
-#     usuario = req.user
+    usuario = req.user
 
-#     if req.method == "POST":
-#         miFormulario = UserEditForm(req.POST)
-#         if miFormulario.is_valid():
+    if req.method == "POST":
+        miFormulario = AvatarFormulario(req.POST, req.FILES)
+        if miFormulario.is_valid():
 
-#             informacion = miFormulario.cleaned_data
+            informacion = miFormulario.cleaned_data
 
-#             usuario.email = informacion['email']
-#             usuario.password1 = informacion['password1']
-#             usuario.password2 = informacion['password2']
-#             #Si quisiera cambiar el nombre del usuario
-#             usuario.first_name = informacion['first_name']
-#             usuario.last_name = informacion['last_name']
-#             usuario.save()
+            usuario.imagen = informacion['imagen']
+            usuario.password1 = informacion['password1']
+            usuario.password2 = informacion['password2']
 
-#             return render(req, "AppCoder/inicio.html", {'url': avatar[0].imagen.url})
+            return render(req, "AppCoder/perfil.html", {'url':usuario.imagen})
 
-#     else:
+    else:
 
-#         miFormulario = UserEditForm(initial={'email': usuario.email})
+        miFormulario = AvatarFormulario()
 
-#         return render(req, "AppCoder/editarPerfil.html", {"miFormulario":miFormulario, "usuario":usuario, 'url': avatar[0].imagen.url})
+        return render(req, "AppCoder/editarAvatar.html", {"miFormulario":miFormulario, "usuario":usuario})

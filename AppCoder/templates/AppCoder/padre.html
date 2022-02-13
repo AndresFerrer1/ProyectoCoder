@@ -39,9 +39,9 @@
 
                 {% if request.user.is_authenticated %}
                 <p class="text-muted small mb-4 mb-lg-0"> Hola, {{user.username}}!!</p>
-                    
                     <div class="dropdown">
                         <button class="dropbtn">Perfil<img height="40px" src="{{url}}" alt="avatar"></button>
+                        
                         <div class="dropdown-content">
                             <li><a href={% url 'Perfil' %}>Ver Perfil</a></li>                           
                             <li><a href={% url 'EditarPerfil' %}>Editar Perfil</a></li>
