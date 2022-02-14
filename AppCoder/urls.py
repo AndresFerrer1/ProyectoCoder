@@ -46,6 +46,6 @@ urlpatterns = [
     path('actualizarAvatar/<pk>/', views.UpdateAvatar.as_view(), name='actualizarAvatar'),
     path('avatarView/', views.AvatarUserList.as_view(), name='AvatarView'),
     path('crearAvatar/', views.AvatarCreate.as_view(), name='AvatarCreate'),
-    path('editarAvatar/', views.editarAvatar, name='EditarAvatar'),
+    path('agregarAvatar/', views.agregarAvatar, name='AgregarAvatar'),
 
 ]

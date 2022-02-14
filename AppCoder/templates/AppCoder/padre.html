@@ -40,12 +40,12 @@
                 {% if request.user.is_authenticated %}
                 <p class="text-muted small mb-4 mb-lg-0"> Hola, {{user.username}}!!</p>
                     <div class="dropdown">
-                        <button class="dropbtn">Perfil<img height="40px" src="{{url}}" alt="avatar"></button>
+                        <button class="dropbtn">Perfil<img height="40px" src="{{url}}" onerror="this.onerror=null" href="{% static 'AppCoder/assets/img/user.jpg' %)" ></button>
                         
                         <div class="dropdown-content">
                             <li><a href={% url 'Perfil' %}>Ver Perfil</a></li>                           
                             <li><a href={% url 'EditarPerfil' %}>Editar Perfil</a></li>
-                            <li><a href={% url 'AvatarView' %}>Editar Avatar</a></li>
+                            <li><a href={% url 'AgregarAvatar' %}>Editar Avatar</a></li>
                             <li><a href={% url 'Entregables' %}>Entregables</a></li>
                             <li><a href={% url 'Logout' %}>Logout</a></li>
                         </div>

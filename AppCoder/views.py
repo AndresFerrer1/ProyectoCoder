@@ -17,6 +17,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail, BadHeaderError
 from django.urls import reverse_lazy
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -83,7 +84,7 @@ def buscarn(req):
 
 def inicio(req):
 
-    # avatar = Avatar.objects.filter(user=req.user.id)
+    avatar = Avatar.objects.filter(user=req.user.id)
 
     if req.user.id == None:
 
@@ -393,24 +394,23 @@ class AvatarCreate(CreateView):
     success_url = "/AppCoder/avatarView"
 
 @login_required
-def editarAvatar(req):
+def agregarAvatar(req):
 
-    usuario = req.user
+    
 
     if req.method == "POST":
         miFormulario = AvatarFormulario(req.POST, req.FILES)
         if miFormulario.is_valid():
 
-            informacion = miFormulario.cleaned_data
+            u = User.objects.get(username=req.user)
+            avatar = Avatar (user=u, imagen=miFormulario.cleaned_data['imagen'])
 
-            usuario.imagen = informacion['imagen']
-            usuario.password1 = informacion['password1']
-            usuario.password2 = informacion['password2']
+            avatar.save()
 
-            return render(req, "AppCoder/perfil.html", {'url':usuario.imagen})
+            return render(req, 'AppCoder/inicio.html', {'mensaje':f'Avatar actualizado'})
 
     else:
 
         miFormulario = AvatarFormulario()
 
-        return render(req, "AppCoder/editarAvatar.html", {"miFormulario":miFormulario, "usuario":usuario})
+    return render(req, "AppCoder/agregarAvatar.html", {"miFormulario":miFormulario})
