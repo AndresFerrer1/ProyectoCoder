@@ -5,12 +5,25 @@
 
 {% block contenidoQueCambia %}
     
-    <form action="/AppCoder/buscar/" method="GET">
 
-        <p>Camada: <input type="number" name="camada" id="camada"></p>
+    <h3>Podes buscar una camada:</h3>
+
+    <form action="/AppCoder/buscar/" method="get">
+
+        <input type="number" name="camada" id="camada">
 
         <input type="submit" value="Buscar">
+    
+    </form>
 
+    <h3>Podes buscar una camada por nombre de curso:</h3>
+
+    <form action="/AppCoder/buscarn/" method="get">
+
+        <input type="text" name="nombre" id="nombre">
+
+        <input type="submit" value="Buscar">
+    
     </form>
 
     {% endblock %}

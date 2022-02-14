@@ -52,16 +52,28 @@ def cursoformulario(req):
 
 def busquedaCamada(req):
 
-    return render(req, 'AppCoder/busquedaCamada.html')
+    avatar = Avatar.objects.filter(user=req.user.id)
+
+    try:
+        return render(req, 'AppCoder/busquedaCamada.html', {"url":avatar[0].imagen.url})
+    except:
+        return render(req, 'AppCoder/busquedaCamada.html', {"url":""})
 
 def buscar(req):
+
+    avatar = Avatar.objects.filter(user=req.user.id)
 
     if(req.method == "GET"):
 
         camada = req.GET["camada"]
         nombre = Curso.objects.filter(camada=camada)
 
-        return render(req, "AppCoder/resultadosBusqueda.html", {"nombre": nombre, "camada": camada})
+        try:
+            return render(req, 'AppCoder/resultadosBusqueda.html', {"nombre": nombre, "camada": camada,"url":avatar[0].imagen.url})
+        except:
+            return render(req, 'AppCoder/resultadosBusqueda.html', {"nombre": nombre, "camada": camada,"url":""})
+
+        # return render(req, "AppCoder/resultadosBusqueda.html", {"nombre": nombre, "camada": camada})
 
     else:
 
@@ -69,12 +81,19 @@ def buscar(req):
 
 def buscarn(req):
 
+    avatar = Avatar.objects.filter(user=req.user.id)
+
     if(req.method == "GET"):
 
         nombre = req.GET["nombre"]
         camada = Curso.objects.filter(nombre=nombre)
 
-        return render(req, "AppCoder/resultadosBusquedan.html", {"nombre": nombre, "camada": camada})
+        try:
+            return render(req, 'AppCoder/resultadosBusquedan.html', {"nombre": nombre, "camada": camada,"url":avatar[0].imagen.url})
+        except:
+            return render(req, 'AppCoder/resultadosBusquedan.html', {"nombre": nombre, "camada": camada,"url":""})
+
+        # return render(req, "AppCoder/resultadosBusquedan.html", {"nombre": nombre, "camada": camada})
 
     else:
 
@@ -84,7 +103,12 @@ def buscarn(req):
 
 def inicio(req):
 
-    return render(req, 'AppCoder/inicio.html')
+    avatar = Avatar.objects.filter(user=req.user.id) 
+
+    try:
+        return render(req, 'AppCoder/inicio.html', {"url":avatar[0].imagen.url})
+    except:
+        return render(req, 'AppCoder/inicio.html', {"url":""})
 
 @login_required
 def inicio2(request):
@@ -101,24 +125,52 @@ def cursos(req):
 
 def leer_cursos(req):
 
+    avatar = Avatar.objects.filter(user=req.user.id)
+
     curso = Curso.objects.all()
 
-    return render(req, 'AppCoder/cursos.html', {"curso": curso})
+    try:
+        return render(req, 'AppCoder/cursos.html', {"curso": curso,"url":avatar[0].imagen.url})
+    except:
+        return render(req, 'AppCoder/cursos.html', {"curso": curso,"url":""})
+
+    # return render(req, 'AppCoder/cursos.html', {"curso": curso})
 
 def estudiantes(req):
 
-    return render(req,'AppCoder/estudiantes.html')
+    avatar = Avatar.objects.filter(user=req.user.id)
+
+    try:
+        return render(req, 'AppCoder/estudiantes.html', {"url":avatar[0].imagen.url})
+    except:
+        return render(req, 'AppCoder/estudiantes.html', {"url":""})
+
+    # return render(req,'AppCoder/estudiantes.html')
 
 def entregables(req):
 
-    return render(req,'AppCoder/entregables.html')
+    avatar = Avatar.objects.filter(user=req.user.id)
+
+    try:
+        return render(req, 'AppCoder/entregables.html', {"url":avatar[0].imagen.url})
+    except:
+        return render(req, 'AppCoder/entregables.html', {"url":""})
+
+    # return render(req,'AppCoder/entregables.html')
 
 @login_required
 def leer_profesores(req):
 
     profesores = Profesor.objects.all()
 
-    return render(req, 'AppCoder/lista_profesores.html', {"profesores": profesores})
+    avatar = Avatar.objects.filter(user=req.user.id)
+
+    try:
+        return render(req, 'AppCoder/lista_profesores.html', {"profesores": profesores, "url":avatar[0].imagen.url})
+    except:
+        return render(req, 'AppCoder/lista_profesores.html', {"profesores": profesores, "url":""})
+
+    # return render(req, 'AppCoder/lista_profesores.html', {"profesores": profesores})
 
 def eliminarProfesor(req, id_profesor):
 
@@ -128,9 +180,18 @@ def eliminarProfesor(req, id_profesor):
     #vuelvo al menú
     profesores = Profesor.objects.all() #trae todos los profesores
 
-    return render(req, "AppCoder/lista_profesores.html", {"profesores":profesores})
+    avatar = Avatar.objects.filter(user=req.user.id)
+
+    try:
+        return render(req, 'AppCoder/lista_profesores.html', {"profesores": profesores, "url":avatar[0].imagen.url})
+    except:
+        return render(req, 'AppCoder/lista_profesores.html', {"profesores": profesores, "url":""})
+
+    # return render(req, "AppCoder/lista_profesores.html", {"profesores":profesores})
 
 def profesores(req):
+
+    avatar = Avatar.objects.filter(user=req.user.id)
 
     if(req.method == "POST"):
 
@@ -143,15 +204,27 @@ def profesores(req):
             profesor = Profesor (nombre=data['nombre'], apellido=data['apellido'], email=data['email'], profesion=data['profesion'])
             profesor.save()
 
-            return render(req, 'AppCoder/inicio.html')
+            try:
+                return render(req, 'AppCoder/inicio.html', {"url":avatar[0].imagen.url})
+            except:
+                return render(req, 'AppCoder/inicio.html', {"url":""})
+
+            # return render(req, 'AppCoder/inicio.html')
 
     else:
 
         mi_formulario = ProfesorFormulario()
 
-        return render(req, 'AppCoder/profesores.html', {'form': mi_formulario})
+        try:
+            return render(req, 'AppCoder/profesores.html', {'form': mi_formulario, "url":avatar[0].imagen.url})
+        except:
+            return render(req, 'AppCoder/profesores.html', {'form': mi_formulario, "url":""})
+
+        # return render(req, 'AppCoder/profesores.html', {'form': mi_formulario})
 
 def editarProfesor(req, profesor_nombre):
+
+    avatar = Avatar.objects.filter(user=req.user.id)
 
     #Recibe el nombre del profesor que vamos a modificar
     profesor = Profesor.objects.get(nombre=profesor_nombre)
@@ -174,7 +247,12 @@ def editarProfesor(req, profesor_nombre):
 
             profesor.save()
 
-            return render(req, "AppCoder/inicio.html") #Vuelvo al inicio o a donde quieran
+            try:
+                return render(req, 'AppCoder/inicio.html', {"url":avatar[0].imagen.url})
+            except:
+                return render(req, 'AppCoder/inicio.html', {"url":""})
+
+            # return render(req, "AppCoder/inicio.html") #Vuelvo al inicio o a donde quieran
       #En caso que no sea post
     else: 
             #Creo el formulario con los datos que voy a modificar
@@ -182,7 +260,13 @@ def editarProfesor(req, profesor_nombre):
         'email':profesor.email, 'profesion':profesor.profesion}) 
 
       #Voy al html que me permite editar
-        return render(req, "AppCoder/editarProfesor.html", {"miFormulario":miFormulario, "profesor_nombre":profesor_nombre})
+
+        try:
+            return render(req, 'AppCoder/editarProfesor.html', {"miFormulario":miFormulario, "profesor_nombre":profesor_nombre,"url":avatar[0].imagen.url})
+        except:
+            return render(req, 'AppCoder/editarProfesor.html', {"miFormulario":miFormulario, "profesor_nombre":profesor_nombre,"url":""})
+        
+        # return render(req, "AppCoder/editarProfesor.html", {"miFormulario":miFormulario, "profesor_nombre":profesor_nombre})
 
 class CursoList(LoginRequiredMixin, ListView):
 
@@ -229,9 +313,14 @@ def login_request(req):
             if user is not None:
                 login(req, user)
 
-                avatar = Avatar.objects.filter(user=req.user.id)                
+                avatar = Avatar.objects.filter(user=req.user.id)
 
-                return render(req, "AppCoder/inicio.html", {'mensaje':f'Bienvenido {user.get_username()}'})
+                try:
+                    return render(req, 'AppCoder/inicio.html', {'mensaje':f'Bienvenido {user.get_username()}',"url":avatar[0].imagen.url})
+                except:
+                    return render(req, 'AppCoder/inicio.html', {'mensaje':f'Bienvenido {user.get_username()}',"url":""})     
+
+                # return render(req, "AppCoder/inicio.html", {'mensaje':f'Bienvenido {user.get_username()}'})
 
             else:
 
@@ -254,7 +343,7 @@ def register(req):
         if form.is_valid():
 
             username = form.cleaned_data['username']
-            imagen = form.cleaned_data['imagen']
+            # imagen = form.cleaned_data['imagen']
             form.save()
             return render(req,"AppCoder/inicio.html", {"mensaje":"Usuario Creado, crea un avatar :)"})
 
@@ -292,20 +381,30 @@ def editarPerfil(req):
 
         miFormulario = UserEditForm(initial={'email': usuario.email})
 
-        return render(req, "AppCoder/editarPerfil.html", {"miFormulario":miFormulario, "usuario":usuario})
+        try:
+            return render(req, 'AppCoder/editarPerfil.html', {"miFormulario":miFormulario, "usuario":usuario,"url":avatar[0].imagen.url})
+        except:
+            return render(req, 'AppCoder/editarPerfil.html', {"miFormulario":miFormulario, "usuario":usuario,"url":""})   
+
+        # return render(req, "AppCoder/editarPerfil.html", {"miFormulario":miFormulario, "usuario":usuario})
 
 @login_required
 def perfil(req):
 
     avatar = Avatar.objects.filter(user=req.user.id)
 
-    if avatar == "":
+    try:
+        return render(req, 'AppCoder/perfil.html', {"url":avatar[0].imagen.url})
+    except:
+        return render(req, 'AppCoder/perfil.html', {"url":""})
 
-        return render(req,'AppCoder/perfil.html', {'url': 'AppCoder/assets/img/user.jpg'})
+    # if avatar == "":
 
-    else:
+    #     return render(req,'AppCoder/perfil.html', {'url': 'AppCoder/assets/img/user.jpg'})
 
-        return render(req,'AppCoder/perfil.html', {'url': avatar[0].imagen.url})
+    # else:
+
+    #     return render(req,'AppCoder/perfil.html', {'url': avatar[0].imagen.url})
 
 def contacto_gracias(req):
 
@@ -313,13 +412,18 @@ def contacto_gracias(req):
 
     mensaje1 = f'Gracias por enviarnos tu consulta. Nos pondremos en contacto a la brevedad'
 
-    if req.user.id == None:
+    try:
+        return render(req, 'AppCoder/contacto_gracias.html', {'mensaje1':mensaje1,"url":avatar[0].imagen.url})
+    except:
+        return render(req, 'AppCoder/contacto_gracias.html', {'mensaje1':mensaje1,"url":""})
 
-        return render(req, 'AppCoder/contacto_gracias.html', {'mensaje1':mensaje1})
+    # if req.user.id == None:
 
-    else:
+    #     return render(req, 'AppCoder/contacto_gracias.html', {'mensaje1':mensaje1})
 
-        return render(req, 'AppCoder/contacto_gracias.html', {'mensaje1':mensaje1, "url":avatar[0].imagen.url})
+    # else:
+
+    #     return render(req, 'AppCoder/contacto_gracias.html', {'mensaje1':mensaje1, "url":avatar[0].imagen.url})
 
 def VistaContacto(req):
 
@@ -329,45 +433,34 @@ def VistaContacto(req):
 
     form = ContactoFormumlario()
 
-    if req.user.id == None:
-
-        if req.method == 'POST':
-            form = ContactoFormumlario(req.POST)
-            if form.is_valid():
-                asunto = form.cleaned_data['asunto']
-                correo = form.cleaned_data['correo']
-                mensaje = form.cleaned_data['mensaje']
-                nombre = form.cleaned_data['nombre']
-                apellido = form.cleaned_data['apellido']
-                try:
-                    send_mail(asunto, mensaje, correo, ['admin@example.com'], nombre, apellido)
-                except BadHeaderError:
-                    return HttpResponse('Invalid header found.')
-                return render(req, 'AppCoder/contacto_gracias.html', {'mensaje1':mensaje1})
-
-        else:
-
-            return render(req, "AppCoder/email.html", {'form': form,})
+    if req.method == 'POST':
+        form = ContactoFormumlario(req.POST)
+        if form.is_valid():
+            asunto = form.cleaned_data['asunto']
+            correo = form.cleaned_data['correo']
+            mensaje = form.cleaned_data['mensaje']
+            nombre = form.cleaned_data['nombre']
+            apellido = form.cleaned_data['apellido']
+            try:
+                send_mail(asunto, mensaje, correo, ['admin@example.com'], nombre, apellido)
+            except BadHeaderError:
+                return HttpResponse('Invalid header found.')
+            
+            try:
+                return render(req, 'AppCoder/contacto_gracias.html', {'mensaje1':mensaje1,"url":avatar[0].imagen.url})
+            except:
+                return render(req, 'AppCoder/contacto_gracias.html', {'mensaje1':mensaje1,"url":""})
+            
+            # return render(req, 'AppCoder/contacto_gracias.html', {'mensaje1':mensaje1})
 
     else:
 
-        if req.method == 'POST':
-            form = ContactoFormumlario(req.POST)
-            if form.is_valid():
-                asunto = form.cleaned_data['asunto']
-                correo = form.cleaned_data['correo']
-                mensaje = form.cleaned_data['mensaje']
-                nombre = form.cleaned_data['nombre']
-                apellido = form.cleaned_data['apellido']
-                try:
-                    send_mail(asunto, mensaje, correo, ['admin@example.com'], nombre, apellido)
-                except BadHeaderError:
-                    return HttpResponse('Invalid header found.')
-                return render(req, 'AppCoder/contacto_gracias.html', {'mensaje1':mensaje1})
+        try:
+            return render(req, 'AppCoder/email.html', {'form': form,"url":avatar[0].imagen.url})
+        except:
+            return render(req, 'AppCoder/email.html', {'form': form,"url":""})
 
-        else:
-
-            return render(req, "AppCoder/email.html", {'form': form, "url":avatar[0].imagen.url})
+        # return render(req, "AppCoder/email.html", {'form': form,})
 
 class crearContacto(CreateView):
     model = Contact
@@ -393,6 +486,8 @@ class AvatarCreate(CreateView):
 @login_required
 def agregarAvatar(req):
 
+    avatar = Avatar.objects.filter(user=req.user.id)
+
     if req.method == "POST":
         miFormulario = AvatarFormulario(req.POST, req.FILES)
         if miFormulario.is_valid():
@@ -402,10 +497,20 @@ def agregarAvatar(req):
 
             avatar.save()
 
-            return render(req, 'AppCoder/inicio.html', {'mensaje':f'Avatar actualizado'})
+        try:
+            return render(req, 'AppCoder/inicio.html', {'mensaje':f'Avatar actualizado',"url":avatar[0].imagen.url})
+        except:
+            return render(req, 'AppCoder/inicio.html', {'mensaje':f'Avatar actualizado',"url":""})
+
+            # return render(req, 'AppCoder/inicio.html', {'mensaje':f'Avatar actualizado'})
 
     else:
 
         miFormulario = AvatarFormulario()
 
-    return render(req, "AppCoder/agregarAvatar.html", {"miFormulario":miFormulario})
+        try:
+            return render(req, 'AppCoder/agregarAvatar.html', {'miFormulario':miFormulario, "url":avatar[0].imagen.url})
+        except:
+            return render(req, 'AppCoder/agregarAvatar.html', {'miFormulario':miFormulario,"url":""})
+
+    # return render(req, "AppCoder/agregarAvatar.html", {"miFormulario":miFormulario})

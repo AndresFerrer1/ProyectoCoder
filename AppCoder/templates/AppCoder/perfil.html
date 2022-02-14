@@ -13,6 +13,10 @@
         <p class="text-secondary">Nombre: {{user.first_name}}</p>
         <p class="text-secondary">Apellido: {{user.last_name}}</p>
         <p>Avatar:</p>
-        <img height="150px" src="{{url}}" alt="avatar">
+        <img height="150px" src="{{url}}" onerror="this.onerror=null" href="{% static 'AppCoder/assets/img/user.jpg' %)">
+    </div>
+
+    <div class="text-center">
+        <a href={% url 'AgregarAvatar' %}>Editar Avatar</a>
     </div>
 {% endblock %}
