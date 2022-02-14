@@ -31,7 +31,7 @@
                 <a class="navbar-brand" href={% url 'Inicio' %}>Inicio</a>
                 <a class="navbar-brand" href={% url 'lista_profesores' %}>L. Profesores</a>
                 <a class="navbar-brand" href={% url 'lista_cursos' %}>L. Cursos</a>
-
+                
                 {% if not request.user.is_authenticated %}
                     <a class="btn btn-primary" href={% url 'Login' %}>Login</a>
                     <a class="btn btn-primary" href={% url 'Register' %}>Registro</a>
@@ -63,6 +63,8 @@
                 <a class="navbar-brand" href={% url 'Profesores' %}>F. Profesores</a>
                 <a class="navbar-brand" href={% url 'Cursos' %}>F. Cursos</a>
                 <a class="navbar-brand" href={% url 'BusquedaCamada' %}>Busq. Camada</a>
+                <a class="navbar-brand" href={% url 'listaPost' %}>Lista de Posts</a>
+                
             </div>
         </nav>
 

@@ -11,12 +11,17 @@
         {% for post in object_list %}
 
         <li><a href="{% url 'DetallePost' post.pk %}">
-            <p>Titulo: {{ post.titulo }} </p> <a href="{% url 'actualizarPost' post.pk %}">Editar Post</a> | <a href="{% url 'BorrarPost' post.pk %}">Borrar Post</a>
+            <p>Titulo: {{ post.titulo }} </p> 
+
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'actualizarPost' post.pk %}">Editar Post</a> | <a href="{% url 'BorrarPost' post.pk %}">Borrar Post</a>                  
+        {% endif %}
+
         </a>
             <p>Etiqueta: {{ post.etiqueta_titulo }} - Autor: {{ post.autor.first_name }} {{ post.autor.last_name}} | 
                 Correo : {{post.autor.email}} </p>
                 <p>Fecha: {{ post.fecha_post }} </p><br/>
-            <p>Posteo: {{ post.body }} </p>
+            <p>Posteo: {{ post.body|slice:"100" }} </p>
             
         </li>
 

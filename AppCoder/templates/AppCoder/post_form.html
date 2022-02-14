@@ -5,7 +5,7 @@
 {% block contenidoQueCambia %}
 
 <h1>Blog</h1>
-
+{% if request.user.is_authenticated %}
 <form method="post">
     {% csrf_token %}
     {{form.as_p}}
@@ -13,5 +13,11 @@
 </form>
 
 <a href="{% url 'listaPost' %}">Regresar</a>
+{% else %}
+
+<p>No puedes editar ningun post.</p>
+    
+{% endif %}
+    
 
 {% endblock %}

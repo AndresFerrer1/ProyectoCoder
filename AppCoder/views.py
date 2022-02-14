@@ -19,6 +19,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail, BadHeaderError
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
+from django.views import generic
 
 # Create your views here.
 
@@ -325,11 +326,11 @@ def login_request(req):
 
             else:
 
-                return render(req, "AppCoder/login.html", {'mensaje':f'Falló la autenticación, intentalo de nuevo'})
+                return render(req, "AppCoder/login.html", {'mensaje':f'Falló la autenticación, intentalo de nuevo', 'form':form})
 
         else:
 
-            return render(req, "AppCoder/login.html", {'mensaje':f'Error, formulario erroneo'})
+            return render(req, "AppCoder/login.html", {'mensaje':f'Error, formulario erroneo','form':form})
 
     form =AuthenticationForm()
 
@@ -530,18 +531,18 @@ class DetallePost(DetailView):
     model = Post
     template_name = 'AppCoder/detallePost.html'
 
-class CrearPost(CreateView):
+class CrearPost(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['titulo', 'etiqueta_titulo', 'autor', 'body', 'fecha_post']
+    fields = ['titulo', 'etiqueta_titulo', 'autor', 'body']
     success_url = "/AppCoder/listaPost"
 
 class ActualizarPost(LoginRequiredMixin, UpdateView):
 
     model = Post
     success_url = "/AppCoder/listaPost"
-    fields = ['titulo', 'etiqueta_titulo', 'body', 'fecha_post']
+    fields = ['titulo', 'etiqueta_titulo', 'body']
 
-class BorrarPost(DeleteView):
+class BorrarPost(LoginRequiredMixin, DeleteView):
     model = Post
     success_url = "/AppCoder/listaPost"
     template_name = "AppCoder/post_confirm_delete.html"
