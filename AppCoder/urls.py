@@ -3,7 +3,7 @@ from django.urls import path
 
 from AppCoder import views
 
-from AppCoder.views import Curso, inicio2, leer_cursos
+from AppCoder.views import Curso, inicio2, leer_cursos, CrearPost
 
 from django.contrib.auth.views import LogoutView
 
@@ -51,6 +51,5 @@ urlpatterns = [
     
     path('listaPost/',views.VistaPost.as_view(), name='listaPost'),
     path('detalle/<int:pk>', views.DetallePost.as_view(), name='DetallePost'),
-    path('crearPost/', views.CrearPost.as_view(), name='')
-
+    path('crearPost/', views.CrearPost.as_view(), name='CrearPost'),
 ]

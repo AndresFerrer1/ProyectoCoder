@@ -527,7 +527,12 @@ class DetallePost(DetailView):
     model = Post
     template_name = 'AppCoder/detallePost.html'
 
+# class CrearPost(CreateView):
+#     model = Post
+#     success_url = "/AppCoder/contacto_gracias"
+#     field = '__all__'
+
 class CrearPost(CreateView):
     model = Post
-    template_name = 'AppCoder/crearPost.html'
-    field = ['__all__']
+    fields = ['titulo', 'etiqueta_titulo', 'autor', 'body']
+    success_url = "/AppCoder/listaPost"

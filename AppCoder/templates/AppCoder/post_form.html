@@ -1,0 +1,15 @@
+{% extends 'AppCoder/padreblog.html' %}
+
+{% load static %}
+    
+{% block contenidoQueCambia %}
+
+<h1>Crear Blog</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button>Post</button>
+</form>
+
+{% endblock %}

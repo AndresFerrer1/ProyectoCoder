@@ -1,4 +1,4 @@
-{% extends "AppCoder/padre.html" %}
+{% extends "AppCoder/padreblog.html" %}
 
 {% load static %}
     
@@ -13,20 +13,12 @@
         <li><a href="{% url 'DetallePost' post.pk %}">
             <p>Titulo: {{ post.titulo }} </p>
         </a>
-            
-            <p>Etiqueta: {{ post.etiqueta }} </p>
-            <p>Autor: {{ post.autor.first_name }} {{ post.autor.last_name}}</p>
-            <p>Correo : {{post.autor.email}}</p><br/>
+            <p>Etiqueta: {{ post.etiqueta_titulo }} - Autor: {{ post.autor.first_name }} {{ post.autor.last_name}} | Correo : {{post.autor.email}}</p><br/>
             <p>Posteo: {{ post.body }} </p>
             
         </li>
 
     {% endfor %}
 </ul>
-
-
-
-</body>
-</html>
 
 {% endblock %}
