@@ -2,6 +2,7 @@ from distutils.command.upload import upload
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+from django.urls import reverse
 
 # Create your models here.
 
@@ -57,3 +58,6 @@ class Post(models.Model):
 
     def __str__(self):
         return self.titulo + ' | ' + str(self.autor)
+
+    # def get_absolute_url(self):
+    #     return reverse('DetallePost', args=(str(self.id)))

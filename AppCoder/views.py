@@ -2,6 +2,7 @@ from asyncio.windows_events import NULL
 from cmath import log
 from dataclasses import field
 import imp
+from pyexpat import model
 from queue import Empty
 import re
 from django.shortcuts import render, HttpResponse, redirect
@@ -476,7 +477,7 @@ class UpdateAvatar(LoginRequiredMixin, UpdateView):
 
     model = Avatar
     success_url = "/AppCoder/avatarView"
-    fields = ['user', 'imagen']  
+    fields = ['user','imagen']  
 
 class AvatarCreate(CreateView):
     model = Avatar
@@ -522,17 +523,24 @@ def agregarAvatar(req):
 class VistaPost(ListView):
     model = Post
     template_name = 'AppCoder/listaPost.html'
+    ordering = ['-id']
 
 class DetallePost(DetailView):
     model = Post
     template_name = 'AppCoder/detallePost.html'
 
-# class CrearPost(CreateView):
-#     model = Post
-#     success_url = "/AppCoder/contacto_gracias"
-#     field = '__all__'
-
 class CrearPost(CreateView):
     model = Post
     fields = ['titulo', 'etiqueta_titulo', 'autor', 'body']
     success_url = "/AppCoder/listaPost"
+
+class ActualizarPost(LoginRequiredMixin, UpdateView):
+
+    model = Post
+    success_url = "/AppCoder/listaPost"
+    fields = ['titulo', 'etiqueta_titulo', 'body']
+
+class BorrarPost(DeleteView):
+    model = Post
+    success_url = "/AppCoder/listaPost"
+    template_name = "AppCoder/post_confirm_delete.html"

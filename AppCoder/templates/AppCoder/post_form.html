@@ -1,15 +1,17 @@
 {% extends 'AppCoder/padreblog.html' %}
-
+{% block titulo %}  {% endblock %}
 {% load static %}
     
 {% block contenidoQueCambia %}
 
-<h1>Crear Blog</h1>
+<h1>Blog</h1>
 
 <form method="post">
     {% csrf_token %}
     {{form.as_p}}
     <button>Post</button>
 </form>
+
+<a href="{% url 'listaPost' %}">Regresar</a>
 
 {% endblock %}

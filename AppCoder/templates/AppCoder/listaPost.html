@@ -13,7 +13,8 @@
         <li><a href="{% url 'DetallePost' post.pk %}">
             <p>Titulo: {{ post.titulo }} </p>
         </a>
-            <p>Etiqueta: {{ post.etiqueta_titulo }} - Autor: {{ post.autor.first_name }} {{ post.autor.last_name}} | Correo : {{post.autor.email}}</p><br/>
+            <p>Etiqueta: {{ post.etiqueta_titulo }} - Autor: {{ post.autor.first_name }} {{ post.autor.last_name}} | 
+                Correo : {{post.autor.email}} <a href="{% url 'actualizarPost' post.pk %}">Editar Post</a> | <a href="{% url 'BorrarPost' post.pk %}">Borrar Post</a></p><br/>
             <p>Posteo: {{ post.body }} </p>
             
         </li>

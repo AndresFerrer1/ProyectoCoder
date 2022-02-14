@@ -42,7 +42,7 @@ class ContactoFormumlario(forms.Form):
 class AvatarFormulario(forms.ModelForm):
     class Meta:
         model = Avatar
-        fields = ('user', 'imagen')
+        fields = ['user', 'imagen']
 
 class PostForm(forms.ModelForm):
     class Meta:

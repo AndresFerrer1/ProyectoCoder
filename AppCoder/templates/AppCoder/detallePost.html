@@ -6,7 +6,7 @@
 
     <!-- <h1>{{object}}</h1> -->
 
-    <h1>{{ post.titulo }}</h1>
+    <h1>{{ post.titulo }}</h1><a href="{% url 'actualizarPost' post.pk %}">Editar</a> | <a href="{% url 'BorrarPost' post.pk %}">Borrar</a><br/>
     <small>Por: {{post.autor.first_name }} {{ post.autor.last_name }}</small><br/>
     <hr>
     <br/>
