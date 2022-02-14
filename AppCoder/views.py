@@ -7,7 +7,7 @@ import re
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import HttpResponse, request
 from AppCoder.forms import AvatarFormulario, ContactoFormumlario, CursoFormulario, ProfesorFormulario, UserEditForm
-from AppCoder.models import Avatar, Contact, Curso, Profesor
+from AppCoder.models import Avatar, Contact, Curso, Post, Profesor
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -514,3 +514,20 @@ def agregarAvatar(req):
             return render(req, 'AppCoder/agregarAvatar.html', {'miFormulario':miFormulario,"url":""})
 
     # return render(req, "AppCoder/agregarAvatar.html", {"miFormulario":miFormulario})
+
+# def indice(req):
+
+#     return render(req, 'AppCoder/indice.html',{})
+
+class VistaPost(ListView):
+    model = Post
+    template_name = 'AppCoder/listaPost.html'
+
+class DetallePost(DetailView):
+    model = Post
+    template_name = 'AppCoder/detallePost.html'
+
+class CrearPost(CreateView):
+    model = Post
+    template_name = 'AppCoder/crearPost.html'
+    field = ['__all__']

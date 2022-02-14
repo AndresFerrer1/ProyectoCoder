@@ -48,4 +48,9 @@ urlpatterns = [
     path('crearAvatar/', views.AvatarCreate.as_view(), name='AvatarCreate'),
     path('agregarAvatar/', views.agregarAvatar, name='AgregarAvatar'),
 
+    
+    path('listaPost/',views.VistaPost.as_view(), name='listaPost'),
+    path('detalle/<int:pk>', views.DetallePost.as_view(), name='DetallePost'),
+    path('crearPost/', views.CrearPost.as_view(), name='')
+
 ]

@@ -1,0 +1,19 @@
+{% extends "AppCoder/padre.html" %}
+
+{% load static %}
+    
+{% block contenidoQueCambia %}
+
+    <!-- <h1>{{object}}</h1> -->
+
+    <h1>{{ post.titulo }}</h1>
+    <small>Por: {{post.autor.first_name }} {{ post.autor.last_name }}</small><br/>
+    <hr>
+    <br/>
+    {{ post.body }}
+
+
+    <br/><br/>
+    <a href="{% url 'listaPost' %}">Regresar</a>
+
+{% endblock %}

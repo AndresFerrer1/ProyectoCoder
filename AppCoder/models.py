@@ -48,3 +48,12 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.correo
+
+class Post(models.Model):
+    titulo = models.CharField(max_length=255)
+    etiqueta_titulo = models.CharField(max_length=255, default="Etiqueta del Post")
+    autor = models.ForeignKey(User, on_delete=models.CASCADE)
+    body = models.TextField()
+
+    def __str__(self):
+        return self.titulo + ' | ' + str(self.autor)
