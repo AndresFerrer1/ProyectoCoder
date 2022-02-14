@@ -84,17 +84,7 @@ def buscarn(req):
 
 def inicio(req):
 
-    avatar = Avatar.objects.filter(user=req.user.id)
-
-    if req.user.id == None:
-
-        return render(req, 'AppCoder/inicio.html')
-
-    else:
-
-        avatar = Avatar.objects.filter(user=req.user.id)
-    
-        return render(req, 'AppCoder/inicio.html', {"url":avatar[0].imagen.url})
+    return render(req, 'AppCoder/inicio.html')
 
 @login_required
 def inicio2(request):
@@ -241,7 +231,7 @@ def login_request(req):
 
                 avatar = Avatar.objects.filter(user=req.user.id)                
 
-                return render(req, "AppCoder/Inicio2.html", {'mensaje':f'Bienvenido {user.get_username()}'})
+                return render(req, "AppCoder/inicio.html", {'mensaje':f'Bienvenido {user.get_username()}'})
 
             else:
 
@@ -260,17 +250,18 @@ def register(req):
     if req.method == "POST":
 
         form = UserCreationForm(req.POST)
-        #form =UserRegisterForm(req.POST)
+        # form2 =AvatarFormulario(req.POST, req.FILES)
         if form.is_valid():
 
             username = form.cleaned_data['username']
+            imagen = form.cleaned_data['imagen']
             form.save()
-            return render(req,"AppCoder/editarAvatar.html", {"mensaje":"Usuario Creado, crea un avatar :)"})
+            return render(req,"AppCoder/inicio.html", {"mensaje":"Usuario Creado, crea un avatar :)"})
 
     else:
 
-        form = UserCreationForm(req.POST)
-        #form =UserRegisterForm(req.POST)
+        form = UserCreationForm()
+        # form2 =AvatarFormulario()
 
         return render(req, "AppCoder/registro.html", {"form":form})
 
@@ -295,20 +286,26 @@ def editarPerfil(req):
             usuario.last_name = informacion['last_name']
             usuario.save()
 
-            return render(req, "AppCoder/inicio.html", {'url': avatar[0].imagen.url})
+            return render(req, "AppCoder/inicio.html", {'url': avatar[0].imagen.url, 'url':avatar})
 
     else:
 
         miFormulario = UserEditForm(initial={'email': usuario.email})
 
-        return render(req, "AppCoder/editarPerfil.html", {"miFormulario":miFormulario, "usuario":usuario, 'url': avatar[0].imagen.url})
+        return render(req, "AppCoder/editarPerfil.html", {"miFormulario":miFormulario, "usuario":usuario})
 
 @login_required
 def perfil(req):
 
     avatar = Avatar.objects.filter(user=req.user.id)
 
-    return render(req,'AppCoder/perfil.html', {'url': avatar[0].imagen.url})
+    if avatar == "":
+
+        return render(req,'AppCoder/perfil.html', {'url': 'AppCoder/assets/img/user.jpg'})
+
+    else:
+
+        return render(req,'AppCoder/perfil.html', {'url': avatar[0].imagen.url})
 
 def contacto_gracias(req):
 
@@ -395,8 +392,6 @@ class AvatarCreate(CreateView):
 
 @login_required
 def agregarAvatar(req):
-
-    
 
     if req.method == "POST":
         miFormulario = AvatarFormulario(req.POST, req.FILES)
