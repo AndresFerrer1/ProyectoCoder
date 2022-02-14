@@ -523,7 +523,8 @@ def agregarAvatar(req):
 class VistaPost(ListView):
     model = Post
     template_name = 'AppCoder/listaPost.html'
-    ordering = ['-id']
+    ordering = ['fecha_post']
+    # ordering = ['-id']
 
 class DetallePost(DetailView):
     model = Post
@@ -531,14 +532,14 @@ class DetallePost(DetailView):
 
 class CrearPost(CreateView):
     model = Post
-    fields = ['titulo', 'etiqueta_titulo', 'autor', 'body']
+    fields = ['titulo', 'etiqueta_titulo', 'autor', 'body', 'fecha_post']
     success_url = "/AppCoder/listaPost"
 
 class ActualizarPost(LoginRequiredMixin, UpdateView):
 
     model = Post
     success_url = "/AppCoder/listaPost"
-    fields = ['titulo', 'etiqueta_titulo', 'body']
+    fields = ['titulo', 'etiqueta_titulo', 'body', 'fecha_post']
 
 class BorrarPost(DeleteView):
     model = Post
