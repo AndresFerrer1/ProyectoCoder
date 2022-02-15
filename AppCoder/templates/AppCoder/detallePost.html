@@ -10,7 +10,15 @@
     <small>Por: {{post.autor.first_name }} {{ post.autor.last_name }} - Fecha: {{ post.fecha_post }}</small><br/>
     <hr>
     <br/>
-    {{ post.body }}
+    {{ post.body }}<br/><br/><br/>
+    <div class="text-center">
+        {% if post.imagen %}
+    
+            <img src='{{ post.imagen.url }}' height="500px">
+        
+        {% endif %}
+    </div>
+
 
 
     <br/><br/>

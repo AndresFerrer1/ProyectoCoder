@@ -1,0 +1,15 @@
+{% extends 'AppCoder/padreblog.html' %}
+
+{% load static %}
+
+
+{% block contenidoQueCambia %}
+
+<form method="post">{% csrf_token %}
+    ¿Estás seguro que deseas borrar el curso "{{ object }}"?
+    <input type="submit" value="Borrar" />
+</form>
+
+<a href="{% url 'AvatarView' %}">Regresar</a>
+    
+{% endblock %}

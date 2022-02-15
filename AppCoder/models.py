@@ -57,6 +57,7 @@ class Post(models.Model):
     autor = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.TextField()
     fecha_post = models.DateField(auto_now_add=True)
+    imagen = models.ImageField(blank=True)
 
     def __str__(self):
         return self.titulo + ' | ' + str(self.autor)

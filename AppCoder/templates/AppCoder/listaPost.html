@@ -23,6 +23,12 @@
                 <p>Fecha: {{ post.fecha_post }} </p><br/>
             <p>Posteo: {{ post.body|slice:"100" }} </p>
             
+            {% if post.imagen %}
+                <img src='{{ post.imagen.url }}' height="100px">
+            {% endif %}
+                
+           
+            
         </li>
 
     {% endfor %}

@@ -485,6 +485,11 @@ class AvatarCreate(CreateView):
     fields = ['user', 'imagen']
     success_url = "/AppCoder/avatarView"
 
+class AvatarDelete(LoginRequiredMixin, DeleteView):
+    model = Avatar
+    success_url = "/AppCoder/avatarView"
+    template_name = "AppCoder/avatar_confirm_delete.html"
+
 @login_required
 def agregarAvatar(req):
 
@@ -533,14 +538,14 @@ class DetallePost(DetailView):
 
 class CrearPost(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['titulo', 'etiqueta_titulo', 'autor', 'body']
+    fields = ['titulo', 'etiqueta_titulo', 'autor', 'body', 'imagen']
     success_url = "/AppCoder/listaPost"
 
 class ActualizarPost(LoginRequiredMixin, UpdateView):
 
     model = Post
     success_url = "/AppCoder/listaPost"
-    fields = ['titulo', 'etiqueta_titulo', 'body']
+    fields = ['titulo', 'etiqueta_titulo', 'body', 'imagen']
 
 class BorrarPost(LoginRequiredMixin, DeleteView):
     model = Post
