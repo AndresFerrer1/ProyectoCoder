@@ -7,31 +7,56 @@
     <!-- <h1>{{object}}</h1> -->
 
     <h1>Post</h1>
-    <ul>
-        {% for post in object_list %}
 
-        <li><a href="{% url 'DetallePost' post.pk %}">
-            <p>Titulo: {{ post.titulo }} </p> 
-
-        {% if request.user.is_authenticated %}
-        <a href="{% url 'actualizarPost' post.pk %}">Editar Post</a> | <a href="{% url 'BorrarPost' post.pk %}">Borrar Post</a>                  
-        {% endif %}
-
-        </a>
-            <p>Etiqueta: {{ post.etiqueta_titulo }} - Autor: {{ post.autor.first_name }} {{ post.autor.last_name}} | 
-                Correo : {{post.autor.email}} </p>
-                <p>Fecha: {{ post.fecha_post }} </p><br/>
-            <p>Posteo: {{ post.body|slice:"100" }} </p>
-            
-            {% if post.imagen %}
-                <img src='{{ post.imagen.url }}' height="100px">
+    <table class="table table-bordered">
+        <ul>
+            {% for post in object_list %}
+    
+            <li><a href="{% url 'DetallePost' post.pk %}">
+                <p>Titulo: {{ post.titulo }} </p> 
+    
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'actualizarPost' post.pk %}">Editar Post</a> | <a href="{% url 'BorrarPost' post.pk %}">Borrar Post</a>                  
             {% endif %}
+    
+            </a>
+                <p>Etiqueta: {{ post.etiqueta_titulo }} - Autor: {{ post.autor.first_name }} {{ post.autor.last_name}} | 
+                    Correo : {{post.autor.email}} </p>
+                    <p>Fecha: {{ post.fecha_post }} </p><br/>
+                <p>Posteo: {{ post.body|slice:"100" }} </p>
                 
-           
-            
-        </li>
-
+                {% if post.imagen %}
+                    <img src='{{ post.imagen.url }}' height="100px">
+                {% endif %}
+                    
+               
+                
+            </li>
+    
+        {% endfor %}
+    </ul>
+      </table>
+      
+      {% if is_paginated %}
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li><a href="?page={{ page_obj.previous_page_number }}">Anterior &laquo; |</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+      {% if page_obj.number == i %}
+        <li class="active"><span>| {{ i }} <span class="sr-only"> (current) |</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}"> {{ i }} </a></li>
+      {% endif %}
     {% endfor %}
-</ul>
+    {% if page_obj.has_next %}
+      <li><a href="?page={{ page_obj.next_page_number }}"> &raquo; Siguiente </a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
 
 {% endblock %}

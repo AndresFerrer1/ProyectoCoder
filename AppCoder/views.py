@@ -531,6 +531,9 @@ class VistaPost(ListView):
     template_name = 'AppCoder/listaPost.html'
     ordering = ['fecha_post']
     # ordering = ['-id']
+    context_object_name = 'post'  # Default: object_list
+    paginate_by = 2
+    queryset = Post.objects.all()  # Default: Model.objects.all()
 
 class DetallePost(DetailView):
     model = Post
